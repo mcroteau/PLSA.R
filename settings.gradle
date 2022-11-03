@@ -1,0 +1,5 @@
+rootProject.name = "PLSAR"
+include "plsar"
+include "examples:beta"
+include "examples:dispatch"
+

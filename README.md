@@ -1,31 +1,19 @@
-# plsar/PLSAR
+# ∆ PLSAR
+
+PLSAR is an Open Source Server + Framework Environment 
+for small to large scale requirements. There are no static 
+references, no file reads, reference to static fields per request. 
+Everything is either cached and or instantiated on the fly. 
+PLSAR runs via one command so there are no .war files to deploy, 
+no additional plugins to install it is a simple yet sophisticated 
+alternative to container deployment environments.
+
+We don't have official stats but it is estimated that PLSAR 
+can handle 90,000 concurrent connections per second.
+
+We even perform a lightweight dependency injection routine so you are not 
+stuck boiler-plating. 
+We followed Spring so everything should be familiar.
 
 
-
-## Getting Started
-
-Download links:
-
-SSH clone URL: ssh://git@git.jetbrains.space/loves/plsar/PLSAR.git
-
-HTTPS clone URL: https://git.jetbrains.space/loves/plsar/PLSAR.git
-
-
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-## Prerequisites
-
-What things you need to install the software and how to install them.
-
-```
-Examples
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a production system.
-
-## Resources
-
-Add links to external resources for this project, such as CI server, bug tracker, etc.
+25% spring 3% gitbook 40% jetbrains 15% H2

@@ -1,0 +1,20 @@
+plugins {
+    id 'application'
+}
+
+application{
+    mainClass.set("Main")
+}
+
+group 'io.plsar'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':plsar')
+    implementation 'com.google.code.gson:gson:2.8.6'
+}
+
