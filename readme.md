@@ -5,7 +5,7 @@ for small to large scale requirements. There are no static
 references, no file reads, reference to static fields per request. 
 Everything is either cached and or instantiated on the fly. 
 PLSAR runs via one command so there are no .war files to deploy, 
-no additional plugins to install it is a simple yet sophisticated 
+no additional plugins to install it is a simple yet powerful 
 alternative to container deployment environments.
 
 We don't have official stats but it is estimated that PLSAR 
