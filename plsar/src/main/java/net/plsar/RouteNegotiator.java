@@ -135,52 +135,56 @@ public class RouteNegotiator {
             Object routeInstance = routeEndpoint.getKlass().getConstructor().newInstance();
 
             PersistenceConfig persistenceConfig = routeAttributes.getPersistenceConfig();
+            if(persistenceConfig != null) {
+                Dao routeDao = new Dao(persistenceConfig);
 
-            Dao routeDao = new Dao(persistenceConfig);
+                Field[] routeFields = routeInstance.getClass().getDeclaredFields();
+                for (Field routeField : routeFields) {
+                    if (routeField.isAnnotationPresent(Bind.class)) {
+                        String fieldKey = routeField.getName().toLowerCase();
 
-            Field[] routeFields = routeInstance.getClass().getDeclaredFields();
-            for(Field routeField : routeFields){
-                if(routeField.isAnnotationPresent(Bind.class)){
-                    String fieldKey = routeField.getName().toLowerCase();
+                        if (componentsHolder.getServices().containsKey(fieldKey)) {
+                            Class<?> serviceKlass = componentsHolder.getServices().get(fieldKey);
+                            Constructor<?> serviceKlassConstructor = serviceKlass.getConstructor();
+                            Object serviceInstance = serviceKlassConstructor.newInstance();
 
-                    if(componentsHolder.getServices().containsKey(fieldKey)){
-                        Class<?> serviceKlass = componentsHolder.getServices().get(fieldKey);
-                        Constructor<?> serviceKlassConstructor = serviceKlass.getConstructor();
-                        Object serviceInstance = serviceKlassConstructor.newInstance();
+                            Field[] repoFields = serviceInstance.getClass().getDeclaredFields();
+                            for (Field repoField : repoFields) {
+                                if (repoField.isAnnotationPresent(Bind.class)) {
+                                    String repoFieldKey = repoField.getName().toLowerCase();
 
-                        Field[] repoFields = serviceInstance.getClass().getDeclaredFields();
-                        for(Field repoField : repoFields) {
-                            if (repoField.isAnnotationPresent(Bind.class)) {
-                                String repoFieldKey = repoField.getName().toLowerCase();
-
-                                if(componentsHolder.getRepositories().containsKey(repoFieldKey)){
-                                    Class<?> repositoryKlass = componentsHolder.getRepositories().get(repoFieldKey);
-                                    Constructor<?> repositoryKlassConstructor = repositoryKlass.getConstructor(Dao.class);
-                                    Object repositoryInstance = repositoryKlassConstructor.newInstance(routeDao);
-                                    repoField.setAccessible(true);
-                                    repoField.set(serviceInstance, repositoryInstance);
+                                    if (componentsHolder.getRepositories().containsKey(repoFieldKey)) {
+                                        Class<?> repositoryKlass = componentsHolder.getRepositories().get(repoFieldKey);
+                                        Constructor<?> repositoryKlassConstructor = repositoryKlass.getConstructor(Dao.class);
+                                        Object repositoryInstance = repositoryKlassConstructor.newInstance(routeDao);
+                                        repoField.setAccessible(true);
+                                        repoField.set(serviceInstance, repositoryInstance);
+                                    }
                                 }
                             }
+
+                            routeField.setAccessible(true);
+                            routeField.set(routeInstance, serviceInstance);
                         }
 
-                        routeField.setAccessible(true);
-                        routeField.set(routeInstance, serviceInstance);
-                    }
-
-                    if(componentsHolder.getRepositories().containsKey(fieldKey)){
-                        Class<?> componentKlass = componentsHolder.getRepositories().get(fieldKey);
-                        Constructor<?> componentKlassConstructor = componentKlass.getConstructor(Dao.class);
-                        Object componentInstance = componentKlassConstructor.newInstance(routeDao);
-                        routeField.setAccessible(true);
-                        routeField.set(routeInstance, componentInstance);
+                        if (componentsHolder.getRepositories().containsKey(fieldKey)) {
+                            Class<?> componentKlass = componentsHolder.getRepositories().get(fieldKey);
+                            Constructor<?> componentKlassConstructor = componentKlass.getConstructor(Dao.class);
+                            Object componentInstance = componentKlassConstructor.newInstance(routeDao);
+                            routeField.setAccessible(true);
+                            routeField.set(routeInstance, componentInstance);
+                        }
                     }
                 }
+
+                try {
+                    Method setPersistenceMethod = routeInstance.getClass().getMethod("setDao", Dao.class);
+                    setPersistenceMethod.invoke(routeInstance, new Dao(persistenceConfig));
+                } catch (NoSuchMethodException nsme) {
+                }
+
             }
 
-            try {
-                Method setPersistenceMethod = routeInstance.getClass().getMethod("setDao", Dao.class);
-                setPersistenceMethod.invoke(routeInstance, new Dao(persistenceConfig));
-            }catch(NoSuchMethodException nsme){ }
 
             String methodResponse = String.valueOf(routeMethod.invoke(routeInstance, routeMethodAttributes.toArray()));
             if(methodResponse == null){

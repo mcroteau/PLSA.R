@@ -61,8 +61,11 @@ public class IdentityController {
         String password = req.getValue("password");
 
         if(!securityManager.signin(credential, password, req, resp)){
-            pageCache.set("message", "Wrong phone or email and password");
-            return "redirect:/signin";
+            credential = informant.getEmail(req.getValue("credential"));
+            if(!securityManager.signin(credential, password, req, resp)){
+                pageCache.set("message", "Wrong phone or email and password");
+                return "redirect:/signin";
+            }
         }
 
         User authUser = userRepo.getPhone(credential);

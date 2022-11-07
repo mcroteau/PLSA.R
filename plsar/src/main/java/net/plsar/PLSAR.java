@@ -46,8 +46,10 @@ public class PLSAR {
         try {
             Integer TOTAL_NUMBER_EXECUTORS = numberOfPartitions * numberOfRequestExecutors;
 
-            DatabaseEnvironmentManager databaseEnvironmentManager = new DatabaseEnvironmentManager();
-            databaseEnvironmentManager.configure(schemaConfig, persistenceConfig);
+            if(schemaConfig != null) {
+                DatabaseEnvironmentManager databaseEnvironmentManager = new DatabaseEnvironmentManager();
+                databaseEnvironmentManager.configure(schemaConfig, persistenceConfig);
+            }
 
             ServerResources serverResources = new ServerResources();
             StartupAnnotationInspector startupAnnotationInspector = new StartupAnnotationInspector(new ComponentsHolder());
@@ -60,8 +62,11 @@ public class PLSAR {
             ConcurrentMap<String, byte[]> viewBytesMap = serverResources.getViewBytesMap(viewConfig);
 
             Log.info("Running startup routine, please wait...");
-            Method startupMethod = serverStartup.getKlass().getMethod("startup");
-            startupMethod.invoke(serverResources.getInstance(serverStartup.getKlass()));
+
+            if(serverStartup != null) {
+                Method startupMethod = serverStartup.getKlass().getMethod("startup");
+                startupMethod.invoke(serverResources.getInstance(serverStartup.getKlass()));
+            }
 
             Log.info("Registering route negotiators, please wait...");
             List<RouteNegotiator> routeNegotiators = getRouteNegotiators(TOTAL_NUMBER_EXECUTORS, serverResources, routeRegistration);
@@ -104,22 +109,25 @@ public class PLSAR {
             RouteEndpointHolder routeEndpointHolder = routeEndpointsResolver.resolve();
             routeAttributes.setRouteEndpointHolder(routeEndpointHolder);
 
-            PersistenceConfig persistenceConfig = new PersistenceConfig();
-            persistenceConfig.setDriver(this.persistenceConfig.getDriver());
-            persistenceConfig.setUrl(this.persistenceConfig.getUrl());
-            persistenceConfig.setUser(this.persistenceConfig.getUser());
-            persistenceConfig.setConnections(this.persistenceConfig.getConnections());
-            persistenceConfig.setPassword(this.persistenceConfig.getPassword());
-            routeAttributes.setPersistenceConfig(persistenceConfig);
+            if(this.persistenceConfig != null) {
+                PersistenceConfig persistenceConfig = new PersistenceConfig();
+                persistenceConfig.setDriver(this.persistenceConfig.getDriver());
+                persistenceConfig.setUrl(this.persistenceConfig.getUrl());
+                persistenceConfig.setUser(this.persistenceConfig.getUser());
+                persistenceConfig.setConnections(this.persistenceConfig.getConnections());
+                persistenceConfig.setPassword(this.persistenceConfig.getPassword());
+                routeAttributes.setPersistenceConfig(persistenceConfig);
+            }
 
-            Dao dao = new Dao(persistenceConfig);
-            SecurityAccess securityAccessInstance = (SecurityAccess) securityAccessClass.getConstructor().newInstance();
-            Method setPersistence = securityAccessInstance.getClass().getMethod("setDao", Dao.class);
-            setPersistence.invoke(securityAccessInstance, dao);
-            SecurityManager securityManager = new SecurityManager(securityAccessInstance);
-            routeAttributes.setSecurityManager(securityManager);
-
-            routeAttributes.setSecurityAccess(this.securityAccessClass);
+            if(securityAccessClass != null) {
+                Dao dao = new Dao(persistenceConfig);
+                SecurityAccess securityAccessInstance = (SecurityAccess) securityAccessClass.getConstructor().newInstance();
+                Method setPersistence = securityAccessInstance.getClass().getMethod("setDao", Dao.class);
+                setPersistence.invoke(securityAccessInstance, dao);
+                SecurityManager securityManager = new SecurityManager(securityAccessInstance);
+                routeAttributes.setSecurityManager(securityManager);
+                routeAttributes.setSecurityAccess(this.securityAccessClass);
+            }
 
             ComponentAnnotationInspector componentAnnotationInspector = new ComponentAnnotationInspector(new ComponentsHolder());
             componentAnnotationInspector.inspect();

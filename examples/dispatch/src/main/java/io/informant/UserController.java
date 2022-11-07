@@ -88,6 +88,8 @@ public class UserController {
         List<Request> requests = referenceRepo.getRequests(id);
         List<Reference> references = referenceRepo.getReferences(id);
 
+        cache.set("requests", requests);
+        cache.set("references", references);
         cache.set("user", user);
         cache.set("papers", papers);
 
