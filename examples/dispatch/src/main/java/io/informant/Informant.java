@@ -22,35 +22,35 @@ import java.util.*;
 public class Informant {
 
     public static void main(String[] args){
-//        PersistenceConfig persistenceConfig = new PersistenceConfig();
-//        persistenceConfig.setDriver(Drivers.H2);
-//        persistenceConfig.setUrl("jdbc:h2:~/PLSAR_DB");
-//        persistenceConfig.setUser("sa");
-//        persistenceConfig.setPassword("");
-//
-//        SchemaConfig schemaConfig = new SchemaConfig();
-//        schemaConfig.setSchema("schema.sql");
-//        schemaConfig.setEnvironment(Environments.DEVELOPMENT);
+        PersistenceConfig persistenceConfig = new PersistenceConfig();
+        persistenceConfig.setDriver(Drivers.H2);
+        persistenceConfig.setUrl("jdbc:h2:~/PLSAR_DB");
+        persistenceConfig.setUser("sa");
+        persistenceConfig.setPassword("");
+
+        SchemaConfig schemaConfig = new SchemaConfig();
+        schemaConfig.setSchema("schema.sql");
+        schemaConfig.setEnvironment(Environments.DEVELOPMENT);
 
         PLSAR plsar = new PLSAR(1234);
         plsar.setNumberOfPartitions(7);
         plsar.setNumberOfRequestExecutors(10);
 
-//        plsar.setPersistenceConfig(persistenceConfig);
-//        plsar.setSchemaConfig(schemaConfig);
-//
-//        ViewConfig viewConfig = new ViewConfig();
-//        viewConfig.setViewsPath("");
-//        viewConfig.setResourcesPath("resources");
-//        viewConfig.setViewExtension(".jsp");
-//        plsar.setViewConfig(viewConfig);
-//
-//        plsar.addViewRenderer(AuthenticatedRenderer.class);
-//        plsar.addViewRenderer(GuestRenderer.class);
-//        plsar.addViewRenderer(UserRenderer.class);
-//
-//        plsar.setSecurityAccess(AuthSecurityAccess.class);
-//        plsar.setPageRenderingScheme(RenderingScheme.RELOAD_EACH_REQUEST);
+        plsar.setPersistenceConfig(persistenceConfig);
+        plsar.setSchemaConfig(schemaConfig);
+
+        ViewConfig viewConfig = new ViewConfig();
+        viewConfig.setViewsPath("");
+        viewConfig.setResourcesPath("resources");
+        viewConfig.setViewExtension(".jsp");
+        plsar.setViewConfig(viewConfig);
+
+        plsar.addViewRenderer(AuthenticatedRenderer.class);
+        plsar.addViewRenderer(GuestRenderer.class);
+        plsar.addViewRenderer(UserRenderer.class);
+
+        plsar.setSecurityAccess(AuthSecurityAccess.class);
+        plsar.setPageRenderingScheme(RenderingScheme.RELOAD_EACH_REQUEST);
         plsar.start();
     }
 

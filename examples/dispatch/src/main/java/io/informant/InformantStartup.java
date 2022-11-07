@@ -12,7 +12,7 @@ import io.informant.repo.UserRepo;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-//@ServerStartup
+@ServerStartup
 public class InformantStartup implements ServerListener {
 
     @Override//todo:∆ from setup complete to initialized
