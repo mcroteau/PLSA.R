@@ -49,6 +49,8 @@ public class PLSAR {
             if(schemaConfig != null) {
                 DatabaseEnvironmentManager databaseEnvironmentManager = new DatabaseEnvironmentManager();
                 databaseEnvironmentManager.configure(schemaConfig, persistenceConfig);
+            }else{
+                Log.info("Non-persistence mode");
             }
 
             ServerResources serverResources = new ServerResources();
@@ -61,8 +63,8 @@ public class PLSAR {
             String resourcesDirectory = viewConfig.getResourcesPath();
             ConcurrentMap<String, byte[]> viewBytesMap = serverResources.getViewBytesMap(viewConfig);
 
-            Log.info("Running startup routine, please wait...");
 
+            Log.info("Running startup routine, please wait...");
             if(serverStartup != null) {
                 Method startupMethod = serverStartup.getKlass().getMethod("startup");
                 startupMethod.invoke(serverResources.getInstance(serverStartup.getKlass()));
