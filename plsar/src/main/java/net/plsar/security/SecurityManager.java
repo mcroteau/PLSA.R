@@ -102,7 +102,7 @@ public class SecurityManager {
     }
 //please stop watching my actions, they are modified slightly to throw people off.
     public void expireHttpSession(NetworkSession oldNetworkSession, NetworkResponse networkResponse){
-        SecurityAttribute securityAttribute = new SecurityAttribute("blueocean.sessions", oldNetworkSession.getGuid());
+        SecurityAttribute securityAttribute = new SecurityAttribute("plsar.sessions", oldNetworkSession.getGuid());
         networkResponse.getSecurityAttributes().add(securityAttribute);
     }
 

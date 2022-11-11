@@ -63,7 +63,7 @@ public class ServerResources {
     }
 
     public String getSessionId() {
-        return "blueocean.sessions";
+        return "plsar.sessions";
     }
 
     public String getDateFormat() {
@@ -107,21 +107,19 @@ public class ServerResources {
 
         Path viewsPath = Paths.get("src", "main", "webapp", viewConfig.getViewsPath());
         File viewsDirectory = new File(viewsPath.toString());
-        if(!viewsDirectory.isDirectory()){
-            throw new PlsarException(viewConfig.getViewsPath() + " is not a directory");
-        }
 
-        File[] viewFiles = viewsDirectory.listFiles();
-        getFileBytesMap(viewFiles, viewFilesBytesMap);
+        if(viewsDirectory.isDirectory()) {
+            File[] viewFiles = viewsDirectory.listFiles();
+            getFileBytesMap(viewFiles, viewFilesBytesMap);
+        }
 
         Path resourcesPath = Paths.get("src", "main", "webapp", viewConfig.getViewsPath(), viewConfig.getResourcesPath());
         File resourcesDirectory = new File(resourcesPath.toString());
-        if(!resourcesDirectory.isDirectory()){
-            throw new PlsarException(viewConfig.getResourcesPath() + " is not a directory");
-        }
 
-        File[] resourceFiles = resourcesDirectory.listFiles();
-        getFileBytesMap(resourceFiles, viewFilesBytesMap);
+        if(resourcesDirectory.isDirectory()) {
+            File[] resourceFiles = resourcesDirectory.listFiles();
+            getFileBytesMap(resourceFiles, viewFilesBytesMap);
+        }
 
         return viewFilesBytesMap;
     }

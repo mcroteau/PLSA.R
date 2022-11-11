@@ -1,5 +1,6 @@
 package net.plsar;
 
+import net.plsar.environments.Environments;
 import net.plsar.model.*;
 import net.plsar.schemes.RenderingScheme;
 import net.plsar.resources.*;
@@ -46,11 +47,10 @@ public class PLSAR {
         try {
             Integer TOTAL_NUMBER_EXECUTORS = numberOfPartitions * numberOfRequestExecutors;
 
-            if(schemaConfig != null) {
+            if(schemaConfig != null &&
+                    schemaConfig.getEnvironment().equals(Environments.DEVELOPMENT)) {
                 DatabaseEnvironmentManager databaseEnvironmentManager = new DatabaseEnvironmentManager();
                 databaseEnvironmentManager.configure(schemaConfig, persistenceConfig);
-            }else{
-                Log.info("Non-persistence mode");
             }
 
             ServerResources serverResources = new ServerResources();
@@ -62,7 +62,6 @@ public class PLSAR {
 
             String resourcesDirectory = viewConfig.getResourcesPath();
             ConcurrentMap<String, byte[]> viewBytesMap = serverResources.getViewBytesMap(viewConfig);
-
 
             Log.info("Running startup routine, please wait...");
             if(serverStartup != null) {

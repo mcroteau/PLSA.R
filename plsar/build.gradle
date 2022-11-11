@@ -8,7 +8,7 @@ plugins {
 }
 
 group 'net.plsar'
-version '1.01'
+version '1.04'
 
 repositories {
     mavenCentral()

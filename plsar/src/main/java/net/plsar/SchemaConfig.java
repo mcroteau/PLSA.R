@@ -19,4 +19,9 @@ public class SchemaConfig {
     public void setEnvironment(String environment) {
         this.environment = environment;
     }
+
+    public SchemaConfig(){
+        this.environment = "";
+        this.schema = "schema.sql";
+    }
 }
