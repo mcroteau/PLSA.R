@@ -18,7 +18,7 @@ public class IdentityRenderer implements ViewRenderer {
     }
 
     public String getKey() {
-        return "ocean:userid";
+        return "plsar:userid";
     }
 
     public Boolean isEval() {

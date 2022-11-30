@@ -16,7 +16,7 @@ public class UserRenderer implements ViewRenderer {
     }
 
     public String getKey() {
-        return "ocean:username";
+        return "plsar:username";
     }
 
     public Boolean isEval() {

@@ -17,3 +17,45 @@ We followed Spring so everything should be familiar.
 
 
 25% spring 3% gitbook 40% jetbrains 15% H2
+
+
+nick_geidel -> aimee_cubbage,
+nick_geidel -> jamie_picketts_son,
+nick_geidel -> mark_rosses_son, 
+nick_geidel -> brian_ehmanns_daughter,
+rick_rowe -> brian_ehmanns_daughter,
+rick_rowe -> brian_ehmanns_daughter,
+jamie_pickett -> police_officers_daughter,
+dan_lantner_aurora_motors_tall_finance -> steve_champagne_daughter,
+dan_lantner_aurora_motors_tall_finance -> steve_wagners_son,
+tyler_cook -> steve_wagners_daughter,  
+steve_shuttleworth -> steve_wagners_daughter,
+
+
+def wtf = [
+    connection.10l -> parent.random_kid
+]
+
+def main(){
+    while(true){
+        for(person in people){
+            if(person.is_thinking_performing_ill_to_good_person() || person.is_mind_control() || person.has_raped() || person.is_thinking_rape() || person.is_thinking_lying("bad") || person.is_thinking_manipulating("bad")){
+                def experience = wtf.random()
+                person.whisper("this is " . experience[0] . " hurting " . experience[1])
+                person.experience(experience)
+            }
+        }
+    }
+}**
+
+
+def main(){
+    for(room in rooms){
+        room.equip_drinks(30).repeat()
+        room.music().play()
+    }
+}**
+
+BiGWyNNa
+
+

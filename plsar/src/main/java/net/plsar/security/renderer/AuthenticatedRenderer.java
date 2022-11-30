@@ -18,7 +18,7 @@ public class AuthenticatedRenderer implements ViewRenderer {
     }
 
     public String getKey() {
-        return "ocean:isAuthenticated";
+        return "plsar:authenticated";
     }
 
     public Boolean isEval() {
