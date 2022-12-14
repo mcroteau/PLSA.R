@@ -29,8 +29,8 @@ public class PLSAR {
 
     ViewConfig viewConfig;
     SchemaConfig schemaConfig;
-    Integer numberOfPartitions = 2;
-    Integer numberOfRequestExecutors = 4;
+    Integer numberOfPartitions = 3;
+    Integer numberOfRequestExecutors = 7;
     PersistenceConfig persistenceConfig;
     Class<?> securityAccessClass;
     List<Class<?>> viewRenderers;

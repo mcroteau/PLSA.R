@@ -27,15 +27,15 @@ public class PLSA {
 
     public static class R {
 
-            Logger Log = Logger.getLogger(net.plsar.PLSA.R.class.getName());
+            Logger Log = Logger.getLogger(PLSA.R.class.getName());
 
             Integer port;
             String RENDERING_SCHEME;
 
             ViewConfig viewConfig;
             SchemaConfig schemaConfig;
-            Integer numberOfPartitions = 2;
-            Integer numberOfRequestExecutors = 4;
+            Integer numberOfPartitions = 3;
+            Integer numberOfRequestExecutors = 7;
             PersistenceConfig persistenceConfig;
             Class<?> securityAccessClass;
             List<Class<?>> viewRenderers;
@@ -83,7 +83,7 @@ public class PLSA {
                     ServerSocket serverSocket = new ServerSocket(port);
                     serverSocket.setPerformancePreferences(0, 1, 2);
                     ExecutorService executors = Executors.newFixedThreadPool(numberOfPartitions);
-                    executors.execute(new net.plsar.PLSAR.PartitionedExecutor(RENDERING_SCHEME, numberOfRequestExecutors, resourcesDirectory, viewBytesMap, serverSocket, redirectRegistry, routeDirectorRegistry, viewRenderers));
+                    executors.execute(new PartitionedExecutor(RENDERING_SCHEME, numberOfRequestExecutors, resourcesDirectory, viewBytesMap, serverSocket, redirectRegistry, routeDirectorRegistry, viewRenderers));
 
                     Log.info("Ready!");
 
@@ -91,7 +91,6 @@ public class PLSA {
                     ex.printStackTrace();
                 }
             }
-
 
             ConcurrentMap<String, RouteNegotiator> registerRouteDirectors(List<RouteNegotiator> routeNegotiators) {
                 ConcurrentMap<String, RouteNegotiator> routeDirectorRegistry = new ConcurrentHashMap<>(0, 3, 63010);
@@ -178,7 +177,7 @@ public class PLSA {
                 @Override
                 public void run() {
                     ExecutorService executors = Executors.newFixedThreadPool(numberOfExecutors);
-                    executors.execute(new net.plsar.PLSAR.NetworkRequestIngester(RENDERER, resourcesDirectory, viewBytesMap, executors, serverSocket, redirectRegistry, sessionRouteRegistry, routeDirectorRegistry, viewRenderers));
+                    executors.execute(new NetworkRequestIngester(RENDERER, resourcesDirectory, viewBytesMap, executors, serverSocket, redirectRegistry, sessionRouteRegistry, routeDirectorRegistry, viewRenderers));
                 }
             }
 
@@ -233,7 +232,7 @@ public class PLSA {
                             requestInputStream.close();
                             clientOutput.flush();
                             clientOutput.close();
-                            executors.execute(new net.plsar.PLSAR.NetworkRequestIngester(RENDERER, resourcesDirectory, viewBytesMap, executors, serverSocket, redirectRegistry, sessionRouteRegistry, routeDirectorRegistry, viewRenderers));
+                            executors.execute(new NetworkRequestIngester(RENDERER, resourcesDirectory, viewBytesMap, executors, serverSocket, redirectRegistry, sessionRouteRegistry, routeDirectorRegistry, viewRenderers));
                             return;
                         }
 
@@ -263,7 +262,7 @@ public class PLSA {
                             requestInputStream.close();
                             clientOutput.flush();
                             clientOutput.close();
-                            executors.execute(new net.plsar.PLSAR.NetworkRequestIngester(RENDERER, resourcesDirectory, viewBytesMap, executors, serverSocket, redirectRegistry, sessionRouteRegistry, routeDirectorRegistry, viewRenderers));
+                            executors.execute(new NetworkRequestIngester(RENDERER, resourcesDirectory, viewBytesMap, executors, serverSocket, redirectRegistry, sessionRouteRegistry, routeDirectorRegistry, viewRenderers));
                             return;
                         }
 
@@ -359,9 +358,9 @@ public class PLSA {
                             clientOutput.write(routeResponse.getResponseBytes());
                         }else{
                             Map<String, Object> redirectAttributes = new HashMap<>();
-                            redirectAttributes.put(net.plsar.PLSAR.HTTPREQUEST, networkRequest);
-                            redirectAttributes.put(net.plsar.PLSAR.HTTPRESPONSE, networkResponse);
-                            redirectAttributes.put(net.plsar.PLSAR.CACHE, pageCache);
+                            redirectAttributes.put(HTTPREQUEST, networkRequest);
+                            redirectAttributes.put(HTTPRESPONSE, networkResponse);
+                            redirectAttributes.put(CACHE, pageCache);
                             redirectRegistry.getRegistry().put(routeDirectorGuid, redirectAttributes);
                             StringBuilder response = new StringBuilder();
                             response.append("HTTP/1.1 307\r\n");
@@ -376,7 +375,7 @@ public class PLSA {
                         clientOutput.close();
                         socketClient.close();
 
-                        executors.execute(new net.plsar.PLSAR.NetworkRequestIngester(RENDERER, resourcesDirectory, viewBytesMap, executors, serverSocket, redirectRegistry, sessionRouteRegistry, routeDirectorRegistry, viewRenderers));
+                        executors.execute(new NetworkRequestIngester(RENDERER, resourcesDirectory, viewBytesMap, executors, serverSocket, redirectRegistry, sessionRouteRegistry, routeDirectorRegistry, viewRenderers));
 
                     }catch(IOException ex){
                         ex.printStackTrace();
