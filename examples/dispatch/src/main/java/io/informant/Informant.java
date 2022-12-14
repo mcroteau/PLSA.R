@@ -1,9 +1,6 @@
 package io.informant;
 
-import net.plsar.PLSAR;
-import net.plsar.PersistenceConfig;
-import net.plsar.SchemaConfig;
-import net.plsar.ViewConfig;
+import net.plsar.*;
 import net.plsar.drivers.Drivers;
 import net.plsar.environments.Environments;
 import net.plsar.schemes.RenderingScheme;
@@ -32,7 +29,7 @@ public class Informant {
         schemaConfig.setSchema("schema.sql");
         schemaConfig.setEnvironment(Environments.DEVELOPMENT);
 
-        PLSAR plsar = new PLSAR(1234);
+        PLSA.R plsar = new PLSA.R(9001);
         plsar.setNumberOfPartitions(7);
         plsar.setNumberOfRequestExecutors(10);
 
