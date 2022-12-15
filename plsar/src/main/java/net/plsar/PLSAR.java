@@ -173,11 +173,11 @@ public class PLSAR {
         @Override
         public void run() {
             ExecutorService executors = Executors.newFixedThreadPool(numberOfExecutors);
-            executors.execute(new NetworkRequestIngester(RENDERER, resourcesDirectory, viewBytesMap, executors, serverSocket, redirectRegistry, sessionRouteRegistry, routeDirectorRegistry, viewRenderers));
+            executors.execute(new NetworkRequestExecutor(RENDERER, resourcesDirectory, viewBytesMap, executors, serverSocket, redirectRegistry, sessionRouteRegistry, routeDirectorRegistry, viewRenderers));
          }
     }
 
-    public static class NetworkRequestIngester implements Runnable {
+    public static class NetworkRequestExecutor implements Runnable {
 
         final String IGNORE_CHROME = "/favicon.ico";
         final String BREAK = "\r\n";
@@ -200,7 +200,7 @@ public class PLSAR {
         List<Class<?>> viewRenderers;
         ConcurrentMap<String, byte[]> viewBytesMap;
 
-        public NetworkRequestIngester(String RENDERER, String resourcesDirectory, ConcurrentMap<String, byte[]> viewBytesMap, ExecutorService executors, ServerSocket serverSocket, RedirectRegistry redirectRegistry, ConcurrentMap<String, String> sessionRouteRegistry, ConcurrentMap<String, RouteNegotiator> routeDirectorRegistry, List<Class<?>> viewRenderers){
+        public NetworkRequestExecutor(String RENDERER, String resourcesDirectory, ConcurrentMap<String, byte[]> viewBytesMap, ExecutorService executors, ServerSocket serverSocket, RedirectRegistry redirectRegistry, ConcurrentMap<String, String> sessionRouteRegistry, ConcurrentMap<String, RouteNegotiator> routeDirectorRegistry, List<Class<?>> viewRenderers){
             this.RENDERER = RENDERER;
             this.resourcesDirectory = resourcesDirectory;
             this.viewBytesMap = viewBytesMap;
@@ -228,7 +228,7 @@ public class PLSAR {
                     requestInputStream.close();
                     clientOutput.flush();
                     clientOutput.close();
-                    executors.execute(new NetworkRequestIngester(RENDERER, resourcesDirectory, viewBytesMap, executors, serverSocket, redirectRegistry, sessionRouteRegistry, routeDirectorRegistry, viewRenderers));
+                    executors.execute(new NetworkRequestExecutor(RENDERER, resourcesDirectory, viewBytesMap, executors, serverSocket, redirectRegistry, sessionRouteRegistry, routeDirectorRegistry, viewRenderers));
                     return;
                 }
 
@@ -258,7 +258,7 @@ public class PLSAR {
                     requestInputStream.close();
                     clientOutput.flush();
                     clientOutput.close();
-                    executors.execute(new NetworkRequestIngester(RENDERER, resourcesDirectory, viewBytesMap, executors, serverSocket, redirectRegistry, sessionRouteRegistry, routeDirectorRegistry, viewRenderers));
+                    executors.execute(new NetworkRequestExecutor(RENDERER, resourcesDirectory, viewBytesMap, executors, serverSocket, redirectRegistry, sessionRouteRegistry, routeDirectorRegistry, viewRenderers));
                     return;
                 }
 
@@ -371,7 +371,7 @@ public class PLSAR {
                 clientOutput.close();
                 socketClient.close();
 
-                executors.execute(new NetworkRequestIngester(RENDERER, resourcesDirectory, viewBytesMap, executors, serverSocket, redirectRegistry, sessionRouteRegistry, routeDirectorRegistry, viewRenderers));
+                executors.execute(new NetworkRequestExecutor(RENDERER, resourcesDirectory, viewBytesMap, executors, serverSocket, redirectRegistry, sessionRouteRegistry, routeDirectorRegistry, viewRenderers));
 
             }catch(IOException ex){
                 ex.printStackTrace();
