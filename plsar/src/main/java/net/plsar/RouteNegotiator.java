@@ -277,7 +277,7 @@ public class RouteNegotiator {
                     return new RouteResponse("Your html template file is missing <plsar:content/>".getBytes(), "200 OK", "text/html");
                 }
 
-                String[] bits = designContent.split("<plssr:content/>");
+                String[] bits = designContent.split("<plsar:content/>");
                 String header = bits[0];
                 String bottom = "";
                 if(bits.length > 1) bottom = bits[1];

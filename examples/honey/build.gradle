@@ -3,7 +3,7 @@ plugins {
 }
 
 application{
-    mainClass.set("Main")
+    mainClass.set("foo.Main")
 }
 
 group 'io.plsar'
@@ -15,6 +15,5 @@ repositories {
 
 dependencies {
     implementation project(':plsar')
-    implementation 'com.google.code.gson:gson:2.8.6'
 }
 

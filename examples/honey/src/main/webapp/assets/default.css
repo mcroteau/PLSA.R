@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300&display=swap');
+
+h1,h2,h3{ font-family: Roboto; font-weight: 500; margin:30px auto 20px; }
+
+h1{font-size:46px;}
+h2{font-size:37px;text-align: left}
+h3{font-size:27px;text-align: left}
+
+p{font-family: Roboto; text-align: left}
+
+header {
+    display: none;
+}
+
+html,body{
+    padding:0px;
+    margin:0px;
+    text-align: center;
+}
+body{
+    padding-bottom:200px;
+    margin-bottom:0px !important;
+    background: rgb(0,0,0);
+    background: linear-gradient(45deg, rgb(88, 93, 239) 0%, rgba(239,7,132,1) 100%);
+}
+
+html,body,
+div, span, p, strong, blockquote, a,
+h1, h2, h3, h4{
+    font-family: Roboto;
+    color:#fff;
+}
+
+p{
+    color:#fff;
+    font-size:19px;
+    line-height: 1.7em;
+    margin:0px auto 20px;
+}
+
+.bolder{
+    font-weight: 900;
+}
+
+pre{
+    color:#00faff;
+    font-size:14px;
+    margin:0px auto 40px;
+    padding:5px 20px 5px 7px;
+    text-align: left;
+    background: #26263e;
+    overflow: scroll;
+    word-wrap: normal;
+    white-space: pre !important;
+    line-break: normal;
+    text-align: left;
+    font-family: 'Fira Code' !important;
+}
+code{
+    padding:0px !important;
+    font-family: 'Fira Code' !important;
+    overflow: scroll;
+    white-space: pre !important;
+    line-break: normal;
+    text-align: left;
+    color:#00faff;
+    font-size:14px;
+}
+p code{ font-size:16px;}
+
+.center{text-align: center;}
+
+img{display: block;margin:auto auto 0px;}
+
+a{
+    text-decoration: none;
+    border-bottom: dotted 2px #00B1FF;
+    font-weight: 300;
+}
+
+.right{float:right}
+.left{float:left}
+
+.highlight{background: #f1f1f1}
+
+.clear{clear:both;}
+
+
+.tagline{font-size:23px;font-weight:100;display:block;}
+p{font-size:23px;font-weight: 300;}
+
+input[type="text"]{
+    font-size:32px;
+    padding:6px 10px;
+    border:solid 1px #e2e5e8;
+}
+
+
+.button,
+input[type="button"].button,
+input[type="reset"].button,
+input[type="submit"].button{
+    cursor:pointer;
+    text-transform:uppercase;
+    color:#fff;
+    font-size:13px;
+    padding:14px 18px;
+    line-height: 1.0em;
+    display:inline-block;
+    background:#3877e1;
+    border:solid 1px #3877e1;
+    text-decoration:none;
+    border-radius: 24px;
+    -moz-border-radius: 24px;
+    -webkit-border-radius: 24px;
+    font-family:Roboto !important;
+    outline:none !important;
+    -webkit-appearance: none;
+    -moz-appearance:none;
+}
+.logo-wrapper{float:left;text-decoration: none;border:none;}
+.logo{
+    font-size: 29px;
+    margin:10px auto 0px;
+    font-weight:500 !important;
+    text-transform: uppercase;
+}
+.inner{
+    width:501px;
+    margin:0px auto 230px;
+}
+a{color:#d23388;color:#7f52ff;border-bottom:dotted 1px #7f52ff}
+
+strong{font-weight: 500}
+#peoo{
+    height:50px;
+}
+#peoo .plsar{
+    fill:#7F52FF;
+    box-shadow: 0px 0px 14px rgba(255,255,255,0.9)
+}
+
+#peoo{height:40px; margin-left:-50px; margin-top:40px;}
+.logo-wrapper{margin-top:30px !important;}
+
+
+.peoo{
+    height:20px;
+    width:20px;
+    background-color: transparent
+}
+.square{border:solid 1px #36ffff;}
+.triangle{height:30px; width:30px;}
+.triangle .plsar{fill:transparent !important; stroke: #36ffff}
+.center, .center p, .center h3{text-align: center}
+
+#peoo{height:40px; margin-left:-50px; margin-top:40px;}
+.logo-wrapper{margin-top:30px !important;color: #58ff69}
+
+ul{text-align: left}
+ul li{font-size:19px;padding:10px 0px;}
+
+
+@media screen and (max-width: 590px) {
+    .inner {
+        margin:0px 40px;
+        width:calc(100% - 80px);
+    }
+}
+
+body{background: #fff;}
+html,body,
+div, span, p, strong, blockquote, a,
+h1, h2, h3, h4{
+    font-family: Roboto;
+    color:#1f1f30;
+}
+.square{border:solid 1px #00faff}
+.navigation{margin-bottom:100px}
+.logo-wrapper{width:25%;text-align: right;height:100vh;margin-top:125px;}
+.identity{margin-top:100px;}
+.logo{color:#1f1f30;margin-top:40px;text-align: right;}
+.identity{height:50px; width:50px;}
+.content{width:450px;padding:100px 50px;margin-left:70px;}
+h1{font-size:79px;text-align: left;margin:0px 0px 20px;}
+h2{font-size:69px;}
+p{font-size:19px;}
+ul li{font-size:32px;}
+.pls{color:#00faff}
+.clear{clear:both}
+.break{padding-top:300px;}
