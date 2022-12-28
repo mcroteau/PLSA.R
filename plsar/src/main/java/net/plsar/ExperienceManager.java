@@ -574,8 +574,10 @@ public class ExperienceManager {
 
             String[] activePredicateFieldElements = activePredicateFields.split(DOT);
             Object activePredicateObject = resp.get(predicateField);
-            for(String activeFieldElement : activePredicateFieldElements){
-                activePredicateObject = getObjectValue(activeFieldElement, activePredicateObject);
+            if(activePredicateObject != null) {
+                for (String activeFieldElement : activePredicateFieldElements) {
+                    activePredicateObject = getObjectValue(activeFieldElement, activePredicateObject);
+                }
             }
 
             String predicateValue = String.valueOf(activePredicateObject);

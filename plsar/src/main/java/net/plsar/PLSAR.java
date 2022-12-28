@@ -254,6 +254,15 @@ public class PLSAR {
                 String requestVersion = methodPathVersionComponents[REQUEST_VERSION];
 
                 NetworkRequest networkRequest = new NetworkRequest(requestVerb, requestPath, serverResources);
+
+                Integer attributesIdx = requestPath.indexOf("?");
+                if(attributesIdx != -1) {
+                    String attributesElement = requestPath.substring(attributesIdx + 1);
+                    requestPath = requestPath.substring(0, attributesIdx);
+                    networkRequest.setValues(attributesElement);
+                    networkRequest.setUriPath(requestPath);
+                }
+
                 if(networkRequest.getUriPath().equals(IGNORE_CHROME)){
                     requestInputStream.close();
                     clientOutput.flush();

@@ -136,6 +136,7 @@ public class NetworkRequest {
                 RequestComponent requestComponent = new RequestComponent();
                 requestComponent.setName(key);
                 requestComponent.setValue(value);
+                System.out.println("a:" + key + ":" + value);
                 requestComponents.put(key, requestComponent);
             }
         }
