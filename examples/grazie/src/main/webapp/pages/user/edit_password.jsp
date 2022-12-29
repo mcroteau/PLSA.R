@@ -2,7 +2,7 @@
 
 <div id="edit-user-form">
 
-	<plsar:if spec="${not empty message}">
+	<plsar:if spec="${message != ''}">
 		<div class="notify">
 			${message}
 		</div>

@@ -1,5 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <style>
     h1{
         margin:0px 0px 10px ;
@@ -89,7 +87,7 @@
     }
 </style>
 
-    <plsar:if spec="${not empty message}">
+    <plsar:if spec="${message != ''}">
         <p class="notify">${message}</p>
     </plsar:if>
 

@@ -107,7 +107,7 @@ public class RouteEndpointsResolver {
             if(routePart.equals(""))continue;
             routeRegex += "/";
             if(routePart.contains("{") && routePart.contains("}")){
-                routeRegex += "[a-zA-Z0-9]*";
+                routeRegex += "[a-zA-Z0-9-_]*";
             }else{
                 routeRegex += routePart;
             }

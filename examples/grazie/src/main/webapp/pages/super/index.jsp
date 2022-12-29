@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-    <plsar:if spec="${not empty message}">
+    <plsar:if spec="${message != ''}">
         <p class="notify">${message}</p>
     </plsar:if>
 

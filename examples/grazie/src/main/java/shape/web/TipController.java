@@ -57,7 +57,7 @@ public class TipController {
     @Design("/designs/guest.jsp")
     @Get("/tip/{id}")
     public String tip(PageCache cache,
-                      @Component String id){
+                      @Component Long id){
         User recipient = userRepo.get(id);
         if(recipient == null){
             cache.set("message", "We were unable to find recipient! Please give it another go!");

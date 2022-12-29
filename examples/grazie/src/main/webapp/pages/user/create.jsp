@@ -9,7 +9,7 @@
 
 		<a href="/users" id="prospect-back" class="href-dotted">&larr;&nbsp;Back</a>
 
-		<plsar:if spec="${not empty message}">
+		<plsar:if spec="${message != ''}">
 			<div class="notify">${message}</div>
 		</plsar:if>
 

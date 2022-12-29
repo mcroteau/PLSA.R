@@ -60,7 +60,7 @@
                             <span class="tiny">Full-time</span>
                         </plsar:if>
                     </td>
-                    <td><a href="/tip/${person.guid}" class="button green">Send Tip $</a></td>
+                    <td><a href="/${person.guid}" class="button green">Send Tip $</a></td>
                 </tr>
             </plsar:if>
         </plsar:foreach>

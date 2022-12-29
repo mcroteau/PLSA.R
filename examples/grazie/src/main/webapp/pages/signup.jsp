@@ -3,7 +3,7 @@
 <div id="signup-form-container">
 
 
-    <plsar:if spec="${not empty message}">
+    <plsar:if spec="${message != ''}">
         <p class="notify">${message}</p>
     </plsar:if>
 

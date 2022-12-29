@@ -2,7 +2,7 @@
 
 <div id="reset-password-form">
 
-	<plsar:if spec="${not empty message}">
+	<plsar:if spec="${message != ''}">
 		<div class="span12">
 			<div class="alert alert-info">${message}</div>
 		</div>
