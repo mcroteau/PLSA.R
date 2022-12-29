@@ -1,4 +1,4 @@
-# ∆ PLSAR
+# ∆ PLSA.R
 
 PLSAR is an Open Source Server + Framework Environment 
 for small to large scale requirements. There are no static 
