@@ -1,4 +1,4 @@
-package net.plsar.annotations.http;
+package net.plsar.annotations.network;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

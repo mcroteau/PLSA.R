@@ -1,6 +1,5 @@
 package shape.web;
 
-import com.google.gson.Gson;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
@@ -14,8 +13,8 @@ import net.plsar.annotations.Bind;
 import net.plsar.annotations.Component;
 import net.plsar.annotations.Controller;
 import net.plsar.annotations.Design;
-import net.plsar.annotations.http.Get;
-import net.plsar.annotations.http.Post;
+import net.plsar.annotations.network.Get;
+import net.plsar.annotations.network.Post;
 import net.plsar.model.NetworkRequest;
 import net.plsar.model.PageCache;
 import net.plsar.security.SecurityManager;

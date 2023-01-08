@@ -1,9 +1,9 @@
 package net.plsar;
 
 import net.plsar.annotations.Controller;
-import net.plsar.annotations.http.Get;
-import net.plsar.annotations.http.Delete;
-import net.plsar.annotations.http.Post;
+import net.plsar.annotations.network.Get;
+import net.plsar.annotations.network.Delete;
+import net.plsar.annotations.network.Post;
 import net.plsar.model.RouteAttribute;
 import net.plsar.resources.ServerResources;
 

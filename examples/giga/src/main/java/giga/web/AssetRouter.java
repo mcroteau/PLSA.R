@@ -2,8 +2,8 @@ package giga.web;
 
 import giga.service.AssetService;
 import net.plsar.annotations.*;
-import net.plsar.annotations.http.Get;
-import net.plsar.annotations.http.Post;
+import net.plsar.annotations.network.Get;
+import net.plsar.annotations.network.Post;
 import net.plsar.model.PageCache;
 import net.plsar.model.NetworkRequest;
 import net.plsar.model.NetworkResponse;

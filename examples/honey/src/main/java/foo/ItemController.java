@@ -5,8 +5,8 @@ import foo.repo.ItemRepo;
 import net.plsar.annotations.Bind;
 import net.plsar.annotations.Controller;
 import net.plsar.annotations.Design;
-import net.plsar.annotations.http.Get;
-import net.plsar.annotations.http.Post;
+import net.plsar.annotations.network.Get;
+import net.plsar.annotations.network.Post;
 import net.plsar.model.NetworkRequest;
 import net.plsar.model.PageCache;
 
