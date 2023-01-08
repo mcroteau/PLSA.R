@@ -2,10 +2,7 @@ package giga;
 
 import com.easypost.model.Rate;
 import giga.model.Business;
-import net.plsar.PLSA;
-import net.plsar.PersistenceConfig;
-import net.plsar.SchemaConfig;
-import net.plsar.ViewConfig;
+import net.plsar.*;
 import net.plsar.drivers.Drivers;
 import net.plsar.environments.Environments;
 import net.plsar.schemes.RenderingScheme;
@@ -28,7 +25,7 @@ import java.util.regex.Pattern;
 public class Giga {
 
 	public static void main(String[] args){
-		PLSA.R plsar = new PLSA.R(9001);
+		PLSAR plsar = new PLSAR(9001);
 		plsar.setNumberOfPartitions(4);
 		plsar.setNumberOfRequestExecutors(10);
 
@@ -41,6 +38,10 @@ public class Giga {
 		SchemaConfig schemaConfig = new SchemaConfig();
 		schemaConfig.setSchema("schema.sql");
 		schemaConfig.setEnvironment(Environments.DEVELOPMENT);
+
+		PropertiesConfig propertiesConfig = new PropertiesConfig();
+		propertiesConfig.setPropertiesFile("grazie.properties");
+		plsar.setPropertiesConfig(propertiesConfig);
 
 		plsar.setPersistenceConfig(persistenceConfig);
 		plsar.setSchemaConfig(schemaConfig);

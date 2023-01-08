@@ -12,7 +12,7 @@ import net.plsar.model.NetworkRequest;
 import net.plsar.model.PageCache;
 import net.plsar.model.RequestComponent;
 import net.plsar.security.SecurityManager;
-import shape.Underscore;
+import shape.Grazie;
 import shape.model.User;
 import shape.repo.UserRepo;
 import shape.service.SeaService;
@@ -28,18 +28,18 @@ public class UserHandler {
 	public UserHandler(){
 		this.smsService = new SmsService();
 		this.seaService = new SeaService();
-		this.underscore = new Underscore();
+		this.grazie = new Grazie();
 	}
 
 	SmsService smsService;
 	SeaService seaService;
-	Underscore underscore;
+	Grazie grazie;
 
 	@Bind
 	UserRepo userRepo;
 
 	String getPermission(String id){
-		return underscore.getUserMaintenance() + id;
+		return grazie.getUserMaintenance() + id;
 	}
 
 	@Get("/users")
@@ -47,7 +47,7 @@ public class UserHandler {
 		if(!security.isAuthenticated(req)){
 			return "redirect:/";
 		}
-		if(!security.hasRole(underscore.getSuperRole(), req)){
+		if(!security.hasRole(grazie.getSuperRole(), req)){
 			cache.set("message", "You must be a super user in order to access users.");
 			return "redirect:/";
 		}
@@ -67,7 +67,7 @@ public class UserHandler {
 		if (!security.isAuthenticated(req)) {
 			return "redirect:/";
 		}
-		if (!security.hasRole(underscore.getSuperRole(), req)) {
+		if (!security.hasRole(grazie.getSuperRole(), req)) {
 			cache.set("message", "You must be a super user in order to access users.");
 			return "redirect:/";
 		}
@@ -84,13 +84,13 @@ public class UserHandler {
 		if(!security.isAuthenticated(req)){
 			return "redirect:/";
 		}
-		if(!security.hasRole(underscore.getSuperRole(), req)){
+		if(!security.hasRole(grazie.getSuperRole(), req)){
 			cache.set("message", "You must be a super user in order to access users.");
 			return "redirect:/";
 		}
 
 		User user = (User) req.inflect(User.class);
-		String phone = underscore.getPhone(user.getPhone());
+		String phone = grazie.getPhone(user.getPhone());
 		User storedUser = userRepo.getPhone(phone);
 		if(storedUser != null){
 			cache.set("message", "Someone already exists with the same phone number. Please try a different number.");
@@ -114,7 +114,7 @@ public class UserHandler {
 							  PageCache cache,
 							  @Component Long id){
 		String permission = getPermission(Long.toString(id));
-		if(!security.hasRole(underscore.getSuperRole(), req) &&
+		if(!security.hasRole(grazie.getSuperRole(), req) &&
 				!security.hasPermission(permission, req)){
 			return "redirect:/";
 		}
@@ -134,7 +134,7 @@ public class UserHandler {
 							 SecurityManager security,
 							 PageCache cache,
 							 @Component Long id) {
-		if(!security.hasRole(underscore.getSuperRole(), req)){
+		if(!security.hasRole(grazie.getSuperRole(), req)){
 			cache.set("message", "You don't have permission");
 			return "redirect:/";
 		}
@@ -153,7 +153,7 @@ public class UserHandler {
 		}
 
 		String permission = getPermission(Long.toString(id));
-		if(!security.hasRole(underscore.getSuperRole(), req) &&
+		if(!security.hasRole(grazie.getSuperRole(), req) &&
 				!security.hasPermission(permission, req)){
 			return "redirect:/";
 		}
@@ -170,15 +170,15 @@ public class UserHandler {
 		for (FileComponent part : fileParts) {
 			String original = part.getFileName();
 			InputStream is = new ByteArrayInputStream(part.getFileBytes());
-			String ext = underscore.getExt(original);
-			String name = underscore.getString(16) + "." + ext;
+			String ext = grazie.getExt(original);
+			String name = grazie.getString(16) + "." + ext;
 
 			seaService.send(name, key, secret, is);
-			user.setImageUri(underscore.getOceanEndpoint() + name);
+			user.setImageUri(grazie.getOceanEndpoint() + name);
 		}
 
 		String description = req.getValue("description");
-		String phone = underscore.getPhone(req.getValue("phone"));
+		String phone = grazie.getPhone(req.getValue("phone"));
 		String name = req.getValue("name");
 
 		user.setDescription(description);
@@ -208,7 +208,7 @@ public class UserHandler {
 							SecurityManager security,
 							PageCache cache){
 		try {
-			String phone = underscore.getPhone(req.getValue("phone"));
+			String phone = grazie.getPhone(req.getValue("phone"));
 			User user = userRepo.getPhone(phone);
 			if (user == null) {
 				cache.set("message", "We were unable to find user with given cell phone number.");
@@ -218,7 +218,7 @@ public class UserHandler {
 			RouteAttributes routeAttributes = req.getRouteAttributes();
 			String key = (String) routeAttributes.get("sms.key");
 
-			String guid = underscore.getString(6);
+			String guid = grazie.getString(6);
 			user.setPassword(security.hash(guid));
 			userRepo.update(user);
 

@@ -16,10 +16,10 @@ import shape.repo.UserRepo;
 public class Startup implements ServerListener {
 
     public Startup(){
-        this.underscore = new Underscore();
+        this.grazie = new Grazie();
     }
 
-    Underscore underscore;
+    Grazie grazie;
 
     @Override
     public void startup() {
@@ -36,38 +36,38 @@ public class Startup implements ServerListener {
         TownRepo townRepo = new TownRepo(dao);
         BusinessRepo businessRepo = new BusinessRepo(dao);
 
-        Role superRole = roleRepo.get(underscore.getSuperRole());
-        Role userRole = roleRepo.get(underscore.getUserRole());
+        Role superRole = roleRepo.get(grazie.getSuperRole());
+        Role userRole = roleRepo.get(grazie.getUserRole());
 
         if(superRole == null){
             superRole = new Role();
-            superRole.setName(underscore.getSuperRole());
+            superRole.setName(grazie.getSuperRole());
             roleRepo.save(superRole);
         }
 
         if(userRole == null){
             userRole = new Role();
-            userRole.setName(underscore.getUserRole());
+            userRole.setName(grazie.getUserRole());
             roleRepo.save(userRole);
         }
 
         User existing = userRepo.getPhone("9079878652");
-        String password = SecurityManager.dirty(underscore.getSuperPassword());
+        String password = SecurityManager.dirty(grazie.getSuperPassword());
 
-        superRole = roleRepo.get(underscore.getSuperRole());
+        superRole = roleRepo.get(grazie.getSuperRole());
 
         if(existing == null){
             User superUser = new User();
-            superUser.setGuid(underscore.getString(8).toUpperCase());
-            superUser.setUuid(underscore.getString(8).toUpperCase());
+            superUser.setGuid(grazie.getString(8).toUpperCase());
+            superUser.setUuid(grazie.getString(8).toUpperCase());
             superUser.setName("Super User!");
             superUser.setPhone("9079878652");
-            superUser.setEmail(underscore.getSuperRole());
+            superUser.setEmail(grazie.getSuperRole());
             superUser.setPassword(password);
             userRepo.save(superUser);
             User savedUser = userRepo.getSaved();
             userRepo.saveUserRole(savedUser.getId(), superRole.getId());
-            String permission = underscore.getUserMaintenance() + savedUser.getId();
+            String permission = grazie.getUserMaintenance() + savedUser.getId();
             userRepo.savePermission(savedUser.getId(), permission);
         }
 
@@ -125,16 +125,16 @@ public class Startup implements ServerListener {
         for(int z = 0; z < names.length; z++){
             String name = names[z];
             User user = new User();
-            user.setGuid(underscore.getString(8).toUpperCase());
-            user.setUuid(underscore.getString(8).toUpperCase());
+            user.setGuid(grazie.getString(8).toUpperCase());
+            user.setUuid(grazie.getString(8).toUpperCase());
             user.setEmail("croteau.mike+" + z + "@gmail.com");
             user.setPassword(SecurityManager.dirty("password"));
             user.setTownId(2L);
             userRepo.save(user);
 
             User savedUser = userRepo.getSaved();
-            userRepo.saveUserRole(savedUser.getId(), underscore.getUserRole());
-            String permission = underscore.getUserMaintenance() + savedUser.getId();
+            userRepo.saveUserRole(savedUser.getId(), grazie.getUserRole());
+            String permission = grazie.getUserMaintenance() + savedUser.getId();
             userRepo.savePermission(savedUser.getId(), permission);
 
             savedUser.setImageUri("https://tips.sfo3.digitaloceanspaces.com/tnTPoUwD9.png");
@@ -151,7 +151,7 @@ public class Startup implements ServerListener {
 
             UserBusiness savedUserBusiness = userRepo.getSavedBusiness();
 
-            String businessPermission = underscore.getBusinessMaintenance() + savedUserBusiness.getId();
+            String businessPermission = grazie.getBusinessMaintenance() + savedUserBusiness.getId();
             userRepo.savePermission(savedUser.getId(), businessPermission);
 
         }

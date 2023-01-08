@@ -4,6 +4,10 @@ import net.plsar.implement.ViewRenderer;
 import net.plsar.model.NetworkSession;
 import net.plsar.security.SecurityManager;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -16,10 +20,9 @@ public class RouteAttributes {
         this.sessionRegistry = new ConcurrentHashMap<>();
     }
 
-    RouteAttributes routeAttributes;
     PersistenceConfig persistenceConfig;
 
-    ConcurrentMap<String, Object> attributes;
+    Map<String, String> attributes;
     ConcurrentMap<String, NetworkSession> sessions;
     ConcurrentMap<String, ViewRenderer> viewRenderers;
     ConcurrentMap<String, Boolean> sessionRegistry;
@@ -28,23 +31,15 @@ public class RouteAttributes {
     Class<?> securityAccess;
     SecurityManager securityManager;
 
-    public Object get(String key){
+    public String get(String key){
         if(this.attributes.containsKey(key)){
             return this.attributes.get(key);
         }
         return null;
     }
 
-    public void set(String key, Object value){
+    public void set(String key, String value){
         this.attributes.put(key, value);
-    }
-
-    public RouteAttributes getRouteAttributes() {
-        return routeAttributes;
-    }
-
-    public void setRouteAttributes(RouteAttributes routeAttributes) {
-        this.routeAttributes = routeAttributes;
     }
 
     public PersistenceConfig getPersistenceConfig() {
@@ -55,11 +50,11 @@ public class RouteAttributes {
         this.persistenceConfig = persistenceConfig;
     }
 
-    public ConcurrentMap<String, Object> getAttributes() {
+    public Map<String, String> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(ConcurrentMap<String, Object> attributes) {
+    public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
 

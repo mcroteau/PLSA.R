@@ -3,7 +3,7 @@ plugins {
 }
 
 application{
-    mainClass.set("shape.Underscore")
+    mainClass.set("shape.Grazie")
 }
 
 group 'com.getongrazie'

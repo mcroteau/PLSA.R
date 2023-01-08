@@ -10,7 +10,7 @@ import net.plsar.model.NetworkRequest;
 import net.plsar.model.NetworkResponse;
 import net.plsar.model.PageCache;
 import net.plsar.security.SecurityManager;
-import shape.Underscore;
+import shape.Grazie;
 import shape.model.*;
 import shape.repo.BusinessRepo;
 import shape.repo.TownRepo;
@@ -25,12 +25,12 @@ public class AuthController {
 	public AuthController(){
 		this.smsService = new SmsService();
 		this.seaService = new SeaService();
-		this.underscore = new Underscore();
+		this.grazie = new Grazie();
 	}
 
 	SmsService smsService;
 	SeaService seaService;
-	Underscore underscore;
+	Grazie grazie;
 
 	@Bind
 	UserRepo userRepo;
@@ -49,7 +49,7 @@ public class AuthController {
 
 		try{
 
-			String email = underscore.getSpaces(req.getValue("email"));
+			String email = grazie.getSpaces(req.getValue("email"));
 			String password = req.getValue("password");
 			if(!security.signin(email, password, req, resp)){
 				cache.set("message", "Wrong phone and password");
@@ -107,7 +107,7 @@ public class AuthController {
 						   PageCache cache){
 		security.signout(req, resp);
 		SignMeUp signMeUp = (SignMeUp) req.inflect(SignMeUp.class);
-		String email = underscore.getSpaces(signMeUp.getEmail());
+		String email = grazie.getSpaces(signMeUp.getEmail());
 		User existingUser = userRepo.getEmail(email);
 		if(existingUser != null){
 			cache.set("message", "You might be already registered. We found an account associated with the email provided.");
@@ -116,14 +116,14 @@ public class AuthController {
 
 		String password = signMeUp.getPassword();
 
-		if(!underscore.isValidMailbox(signMeUp.getEmail())){
+		if(!grazie.isValidMailbox(signMeUp.getEmail())){
 			cache.set("message", "Please enter a valid email!");
 			return "redirect:/signup";
 		}
 
 		User user = new User();
-		user.setUuid(underscore.getString(8).toUpperCase());
-		user.setGuid(underscore.getString(8).toUpperCase());
+		user.setUuid(grazie.getString(8).toUpperCase());
+		user.setGuid(grazie.getString(8).toUpperCase());
 		user.setEmail(email);
 		user.setPassword(security.hash(password));
 
@@ -141,9 +141,9 @@ public class AuthController {
 		userRepo.save(user);
 
 		User savedUser = userRepo.getSaved();
-		userRepo.saveUserRole(savedUser.getId(), underscore.getUserRole());
+		userRepo.saveUserRole(savedUser.getId(), grazie.getUserRole());
 
-		String permission = underscore.getUserMaintenance() + savedUser.getId();
+		String permission = grazie.getUserMaintenance() + savedUser.getId();
 		userRepo.savePermission(savedUser.getId(), permission);
 
 		UserBusiness userBusiness = new UserBusiness();
@@ -152,7 +152,7 @@ public class AuthController {
 		userRepo.saveBusiness(userBusiness);
 
 		UserBusiness savedUserBusiness = userRepo.getSavedBusiness();
-		String businessPermission = underscore.getBusinessMaintenance() + savedUserBusiness.getId();
+		String businessPermission = grazie.getBusinessMaintenance() + savedUserBusiness.getId();
 		userRepo.savePermission(savedUserBusiness.getId(), businessPermission);
 
 		Business business = businessRepo.get(signMeUp.getBusinessId());

@@ -13,7 +13,7 @@ import net.plsar.model.NetworkRequest;
 import net.plsar.model.NetworkResponse;
 import net.plsar.model.PageCache;
 import net.plsar.security.SecurityManager;
-import shape.Underscore;
+import shape.Grazie;
 import shape.model.*;
 import shape.repo.BusinessRepo;
 import shape.repo.TipRepo;
@@ -31,12 +31,12 @@ public class BasicController {
     public BasicController(){
         this.smsService = new SmsService();
         this.seaService = new SeaService();
-        this.underscore = new Underscore();
+        this.grazie = new Grazie();
     }
 
     SmsService smsService;
     SeaService seaService;
-    Underscore underscore;
+    Grazie grazie;
 
     @Bind
     TipRepo tipRepo;
@@ -52,6 +52,15 @@ public class BasicController {
 
     @Get("/")
     public String index(NetworkRequest req, SecurityManager security){
+
+        RouteAttributes routeAttributes = req.getRouteAttributes();
+        String key = routeAttributes.get("sms.key");
+        String cloud = routeAttributes.get("cloud.key");
+        String secret = routeAttributes.get("cloud.secret");
+        String stripe = routeAttributes.get("stripe.key");
+
+        System.out.println("z:" + key + ":" + cloud + ":" + secret + ":" + stripe);
+
         if(security.isAuthenticated(req)){
             return "redirect:/snapshot";
         }
@@ -133,7 +142,7 @@ public class BasicController {
             return "redirect:/signin";
         }
 
-        if(security.hasRole(underscore.getSuperRole(), req)){
+        if(security.hasRole(grazie.getSuperRole(), req)){
             List<User> users = userRepo.getList();
             cache.set("users", users);
 
@@ -142,7 +151,7 @@ public class BasicController {
             cache.set("page", "/pages/super/index.jsp");
         }
 
-        if(!security.hasRole(underscore.getSuperRole(), req)){
+        if(!security.hasRole(grazie.getSuperRole(), req)){
             String credential = security.getUser(req);
             User authUser = userRepo.getPhone(credential);
             if(authUser == null){
@@ -243,7 +252,7 @@ public class BasicController {
             cache.set("message", "Whao! Where are you going.");
             return "redirect:/";
         }
-        if(!security.hasRole(underscore.getSuperRole(), req)){
+        if(!security.hasRole(grazie.getSuperRole(), req)){
             cache.set("message", "Whao! Where are you going.");
             return "redirect:/";
         }
@@ -370,8 +379,8 @@ public class BasicController {
         if(!security.isAuthenticated(req)){
             return "redirect:/";
         }
-        String permission = underscore.getBusinessMaintenance() + id;
-        if(!security.hasRole(underscore.getSuperRole(), req) &&
+        String permission = grazie.getBusinessMaintenance() + id;
+        if(!security.hasRole(grazie.getSuperRole(), req) &&
                 !security.hasPermission(permission, req)){
             return "redirect:/";
         }
@@ -390,8 +399,8 @@ public class BasicController {
         if(!security.isAuthenticated(req)){
             return "redirect:/";
         }
-        String permission = underscore.getBusinessMaintenance() + id;
-        if(!security.hasRole(underscore.getSuperRole(), req) &&
+        String permission = grazie.getBusinessMaintenance() + id;
+        if(!security.hasRole(grazie.getSuperRole(), req) &&
                 !security.hasPermission(permission, req)){
             return "redirect:/";
         }
@@ -411,8 +420,8 @@ public class BasicController {
         if(!security.isAuthenticated(req)){
             return "redirect:/";
         }
-        String permission = underscore.getBusinessMaintenance() + id;
-        if(!security.hasRole(underscore.getSuperRole(), req) &&
+        String permission = grazie.getBusinessMaintenance() + id;
+        if(!security.hasRole(grazie.getSuperRole(), req) &&
                 !security.hasPermission(permission, req)){
             return "redirect:/";
         }
@@ -431,8 +440,8 @@ public class BasicController {
             return "redirect:/";
         }
         UserBusiness userBusiness = (UserBusiness) req.inflect(UserBusiness.class);
-        String permission = underscore.getBusinessMaintenance() + userBusiness.getId();
-        if(!security.hasRole(underscore.getSuperRole(), req) &&
+        String permission = grazie.getBusinessMaintenance() + userBusiness.getId();
+        if(!security.hasRole(grazie.getSuperRole(), req) &&
                 !security.hasPermission(permission, req)){
             return "redirect:/";
         }

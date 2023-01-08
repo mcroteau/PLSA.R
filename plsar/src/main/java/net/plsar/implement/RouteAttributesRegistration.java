@@ -2,6 +2,6 @@ package net.plsar.implement;
 
 import net.plsar.RouteAttributes;
 
-public interface RouteRegister {
+public interface RouteAttributesRegistration {
     RouteAttributes register();
 }

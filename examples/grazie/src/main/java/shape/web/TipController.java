@@ -18,7 +18,7 @@ import net.plsar.annotations.network.Post;
 import net.plsar.model.NetworkRequest;
 import net.plsar.model.PageCache;
 import net.plsar.security.SecurityManager;
-import shape.Underscore;
+import shape.Grazie;
 import shape.model.*;
 import shape.repo.TipRepo;
 import shape.repo.StripeRepo;
@@ -37,12 +37,12 @@ public class TipController {
     public TipController(){
         this.smsService = new SmsService();
         this.seaService = new SeaService();
-        this.underscore = new Underscore();
+        this.grazie = new Grazie();
     }
 
     SmsService smsService;
     SeaService seaService;
-    Underscore underscore;
+    Grazie grazie;
 
     @Bind
     UserRepo userRepo;
@@ -85,12 +85,12 @@ public class TipController {
             return "redirect:/" + recipient.getGuid();
         }
 
-        tip.setEmail(underscore.getSpaces(tip.getEmail()));
-        if(!underscore.isValidMailbox(tip.getEmail())){
+        tip.setEmail(grazie.getSpaces(tip.getEmail()));
+        if(!grazie.isValidMailbox(tip.getEmail())){
             data.set("message", "Please enter a valid Email Address!");
             return "redirect:/" + recipient.getGuid();
         }
-        tip.setCreditCard(underscore.getSpaces(tip.getCreditCard()));
+        tip.setCreditCard(grazie.getSpaces(tip.getCreditCard()));
         if(tip.getCreditCard().equals("")){
             data.set("message", "Please enter a valid credit card!");
             return "redirect:/" + recipient.getGuid();
@@ -116,7 +116,7 @@ public class TipController {
 
             Stripe.apiKey = apiKey;
 
-            String guid = underscore.getTip(36).toLowerCase();
+            String guid = grazie.getTip(36).toLowerCase();
             tip.setGuid(guid);
 
             User patron = userRepo.get(tip.getEmail());
@@ -126,20 +126,20 @@ public class TipController {
                 patron.setEmail(tip.getEmail());
                 patron.setPassword(security.hash(guid));
                 patron.setClean(guid);
-                patron.setDateCreated(underscore.getDate());
+                patron.setDateCreated(grazie.getDate());
                 userRepo.save(patron);
                 patron = userRepo.getSaved();
                 patron.setClean(guid);
 
-                userRepo.saveUserRole(patron.getId(), underscore.getDonorRole());
+                userRepo.saveUserRole(patron.getId(), grazie.getDonorRole());
 
-                String permission = underscore.getUserMaintenance() + patron.getId();
+                String permission = grazie.getUserMaintenance() + patron.getId();
                 userRepo.savePermission(patron.getId(), permission);
             }
 
             tip.setPatronId(patron.getId());
             tip.setProcessed(false);
-            tip.setTipDate(underscore.getDate());//2.9% goes to another company
+            tip.setTipDate(grazie.getDate());//2.9% goes to another company
 
             BigDecimal appfee = tip.getAmount().multiply(new BigDecimal(0.07, new MathContext(2)));
             Long appfeecents = appfee.movePointRight(2).longValue();

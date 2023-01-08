@@ -25,10 +25,12 @@ public class PLSAR {
     static Logger Log = Logger.getLogger(PLSAR.class.getName());
 
     Integer port;
+    String PROPERTIES;
     String RENDERING_SCHEME;
 
     ViewConfig viewConfig;
     SchemaConfig schemaConfig;
+    PropertiesConfig propertiesConfig;
     Integer numberOfPartitions = 3;
     Integer numberOfRequestExecutors = 7;
     PersistenceConfig persistenceConfig;
@@ -40,6 +42,7 @@ public class PLSAR {
         this.port = port;
         this.viewConfig = new ViewConfig();
         this.viewRenderers = new ArrayList<>();
+        this.PROPERTIES = "system.properties";
         this.RENDERING_SCHEME = RenderingScheme.CACHE_REQUESTS;
     }
 
@@ -57,7 +60,15 @@ public class PLSAR {
             StartupAnnotationInspector startupAnnotationInspector = new StartupAnnotationInspector(new ComponentsHolder());
             startupAnnotationInspector.inspect();
             ComponentsHolder componentsHolder = startupAnnotationInspector.getComponentsHolder();
-            AnnotationComponent routeRegistration = componentsHolder.getRouteRegistration();
+
+            if(propertiesConfig == null){
+                propertiesConfig = new PropertiesConfig();
+                propertiesConfig.setPropertiesFile(PROPERTIES);
+            }
+
+            String propertiesFile = propertiesConfig.getPropertiesFile();
+            RouteAttributesResolver routeAttributesResolver = new RouteAttributesResolver(propertiesFile);
+            RouteAttributes routeAttributes = routeAttributesResolver.resolve();
             AnnotationComponent serverStartup = componentsHolder.getServerStartup();
 
             String resourcesDirectory = viewConfig.getResourcesPath();
@@ -70,7 +81,7 @@ public class PLSAR {
             }
 
             Log.info("Registering route negotiators, please wait...");
-            List<RouteNegotiator> routeNegotiators = getRouteNegotiators(TOTAL_NUMBER_EXECUTORS, serverResources, routeRegistration);
+            List<RouteNegotiator> routeNegotiators = getRouteNegotiators(TOTAL_NUMBER_EXECUTORS, serverResources, routeAttributes);
             ConcurrentMap<String, RouteNegotiator> routeDirectorRegistry = registerRouteDirectors(routeNegotiators);
 
             RedirectRegistry redirectRegistry = new RedirectRegistry();
@@ -96,15 +107,9 @@ public class PLSAR {
         return routeDirectorRegistry;
     }
 
-    List<RouteNegotiator> getRouteNegotiators(Integer TOTAL_NUMBER_EXECUTORS, ServerResources serverResources, AnnotationComponent routeRegistration) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    List<RouteNegotiator> getRouteNegotiators(Integer TOTAL_NUMBER_EXECUTORS, ServerResources serverResources, RouteAttributes routeAttributes) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         List<RouteNegotiator> routeNegotiators = new ArrayList();
         for(Integer activeIndex = 0; activeIndex < TOTAL_NUMBER_EXECUTORS; activeIndex++){//todo:set guid
-
-            RouteAttributes routeAttributes = new RouteAttributes();
-            if(routeRegistration != null) {
-                Method startupMethod = routeRegistration.getKlass().getMethod("register");
-                routeAttributes = (RouteAttributes) startupMethod.invoke(serverResources.getInstance(routeRegistration.getKlass()));
-            }
 
             RouteEndpointsResolver routeEndpointsResolver = new RouteEndpointsResolver(serverResources);
             RouteEndpointHolder routeEndpointHolder = routeEndpointsResolver.resolve();
@@ -416,6 +421,9 @@ public class PLSAR {
 
     }
 
+    public void setPropertiesConfig(PropertiesConfig propertiesConfig){
+        this.propertiesConfig = propertiesConfig;
+    }
 
     public void setPageRenderingScheme(String RENDERING_SCHEME) {
         this.RENDERING_SCHEME = RENDERING_SCHEME;

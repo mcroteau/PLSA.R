@@ -13,10 +13,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.plsar.PLSAR;
-import net.plsar.PersistenceConfig;
-import net.plsar.SchemaConfig;
-import net.plsar.ViewConfig;
+import net.plsar.*;
 import net.plsar.drivers.Drivers;
 import net.plsar.environments.Environments;
 import net.plsar.schemes.RenderingScheme;
@@ -26,7 +23,7 @@ import net.plsar.security.renderer.UserRenderer;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
-public class Underscore {
+public class Grazie {
 
 	public static void main(String[] args){
 		PLSAR plsar = new PLSAR(9001);
@@ -43,8 +40,12 @@ public class Underscore {
 		schemaConfig.setSchema("schema.sql");
 		schemaConfig.setEnvironment(Environments.DEVELOPMENT);
 
-		plsar.setPersistenceConfig(persistenceConfig);
+		PropertiesConfig propertiesConfig = new PropertiesConfig();
+		propertiesConfig.setPropertiesFile("grazie.properties");
+		plsar.setPropertiesConfig(propertiesConfig);
+
 		plsar.setSchemaConfig(schemaConfig);
+		plsar.setPersistenceConfig(persistenceConfig);
 
 		plsar.addViewRenderer(AuthenticatedRenderer.class);
 		plsar.addViewRenderer(GuestRenderer.class);

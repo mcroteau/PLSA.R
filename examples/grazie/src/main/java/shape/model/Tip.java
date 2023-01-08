@@ -1,7 +1,5 @@
 package shape.model;
 
-import shape.Underscore;
-
 import java.math.BigDecimal;
 
 public class Tip {

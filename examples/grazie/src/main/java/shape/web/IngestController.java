@@ -9,7 +9,7 @@ import net.plsar.annotations.network.Post;
 import net.plsar.model.NetworkRequest;
 import net.plsar.model.PageCache;
 import net.plsar.security.SecurityManager;
-import shape.Underscore;
+import shape.Grazie;
 import shape.model.Business;
 import shape.model.Place;
 import shape.model.Result;
@@ -29,11 +29,11 @@ public class IngestController {
 
     public IngestController(){
         this.gson = new Gson();
-        this.underscore = new Underscore();
+        this.grazie = new Grazie();
     }
 
     Gson gson;
-    Underscore underscore;
+    Grazie grazie;
 
     @Bind
     TownRepo townRepo;
@@ -54,7 +54,7 @@ public class IngestController {
             cache.set("message", "Please signin to continue...");
             return "redirect:/signin";
         }
-        if(!security.hasRole(underscore.getSuperRole(), req)){
+        if(!security.hasRole(grazie.getSuperRole(), req)){
             cache.set("message", "Please signin to continue...");
             return "redirect:/home";
         }

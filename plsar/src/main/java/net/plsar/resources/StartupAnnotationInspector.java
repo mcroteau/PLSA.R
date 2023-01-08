@@ -54,11 +54,6 @@ public class StartupAnnotationInspector {
 
                 if (klass.isAnnotation() || klass.isInterface()) continue;
 
-                if(klass.isAnnotationPresent(RouteRegistration.class)) {
-                    AnnotationComponent annotationComponent = new AnnotationComponent();
-                    annotationComponent.setKlass(klass);
-                    componentsHolder.setRouteRegistration(annotationComponent);
-                }
                 if(klass.isAnnotationPresent(ServerStartup.class)) {
                     AnnotationComponent annotationComponent = new AnnotationComponent();
                     annotationComponent.setKlass(klass);
